@@ -1,0 +1,272 @@
+[
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 10
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 6
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 8
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 7
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 1
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 6
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 10
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 8
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 7
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 7
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 4
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 1
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 1
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 3
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 6
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 4
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 3
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 3
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 10
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 7
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 10
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 1
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 5
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 2
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 3
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 7
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 7
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 8
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 1
+    },
+    {
+        "temperature_range": "0-50°C",
+        "temperature_accuracy": "+-2°C",
+        "humidity_range": "20-90%RH",
+        "humidity_accuracy": "+-5%RH",
+        "name": "DHT11",
+        "description": "DHT 11 Humidity & Temperature Sensor",
+        "machine_id": 6
+    }
+]

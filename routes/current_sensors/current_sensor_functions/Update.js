@@ -1,0 +1,51 @@
+const { authenticateUserFromReq } = require('../../../authentication/Auth')
+const { CurrentSensor } = require('../../../database/Models')
+
+const ADMIN = 'admin'
+
+const updateCurrentSensor = async (req, res) => {
+    const response = {}
+    response.isValid = false
+    response.isSuccess = false
+
+    const payload = authenticateUserFromReq(req)
+
+    if (payload !== undefined) {
+        if (payload.role === ADMIN) {
+            response.isValid = true
+
+            const currentSensor = {
+                current_range: req.body.current_range,
+                current_accuracy: req.body.current_accuracy,
+                name: req.body.name,
+                description: req.body.description,
+                machine_id: req.body.machine_id
+            }
+
+            let currentSensorDB = await CurrentSensor.findOne({ where: { current_sensor_id: req.body.current_sensor_id } })
+
+            if (currentSensorDB !== null) {
+                await currentSensorDB.update(currentSensor)
+                    .then(() => {
+                        response.isSuccess = true
+                        response.message = 'Update current sensor success'
+                    })
+                    .catch(err => {
+                        response.message = `Error: ${err.message}`
+                    })
+            } else {
+                response.message = `The current sensor has current_sensor_id: ${req.body.current_sensor_id} do not exist in database.`
+            }
+        } else {
+            response.message = 'This account does not access the source'
+        }
+    } else {
+        response.message = 'The user token is invalid'
+    }
+
+    // Response client
+    // Params: isValid, isSuccess, users, message
+    res.json(response)
+}
+
+exports.updateCurrentSensor = updateCurrentSensor

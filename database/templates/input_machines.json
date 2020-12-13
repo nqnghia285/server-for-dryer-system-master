@@ -1,0 +1,10 @@
+[{"name":"Machine 1","description":"Zonotrichia capensis","code":"CODE:1","status":"on","position":"4010 Mandrake Pass"},
+{"name":"Machine 2","description":"Anhinga rufa","code":"CODE:2","status":"on","position":"271 Barby Street"},
+{"name":"Machine 3","description":"Orcinus orca","code":"CODE:3","status":"on","position":"339 Aberg Pass"},
+{"name":"Machine 4","description":"Lorythaixoides concolor","code":"CODE:4","status":"on","position":"02 Atwood Center"},
+{"name":"Machine 5","description":"Mycteria leucocephala","code":"CODE:5","status":"on","position":"5 Debra Park"},
+{"name":"Machine 6","description":"Ictalurus furcatus","code":"CODE:6","status":"on","position":"7 Meadow Valley Drive"},
+{"name":"Machine 7","description":"Potamochoerus porcus","code":"CODE:7","status":"off","position":"6208 Ronald Regan Alley"},
+{"name":"Machine 8","description":"Pitangus sulphuratus","code":"CODE:8","status":"off","position":"1 Eastwood Way"},
+{"name":"Machine 9","description":"unavailable","code":"CODE:9","status":"off","position":"7 Tennessee Hill"},
+{"name":"Machine 10","description":"Speotyte cuniculata","code":"CODE:10","status":"off","position":"775 North Plaza"}]

@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Garlic",
+        "description": "Sus scrofa",
+        "type_of_fruit": "Cactus Pads",
+        "mass": 138,
+        "time": 43,
+        "temperature": 67,
+        "humidity": 92,
+        "user_id": 49
+    },
+    {
+        "name": "Ecolab - Mikroklene 4/4 L",
+        "description": "Ceratotherium simum",
+        "type_of_fruit": "Juice - Grape, White",
+        "mass": 221,
+        "time": 81,
+        "temperature": 66,
+        "humidity": 61,
+        "user_id": 8
+    },
+    {
+        "name": "Soup Campbells Turkey Veg.",
+        "description": "Centrocercus urophasianus",
+        "type_of_fruit": "Flour - Bread",
+        "mass": 197,
+        "time": 47,
+        "temperature": 60,
+        "humidity": 100,
+        "user_id": 15
+    },
+    {
+        "name": "Sambuca - Opal Nera",
+        "description": "Libellula quadrimaculata",
+        "type_of_fruit": "Pepper - Pablano",
+        "mass": 214,
+        "time": 142,
+        "temperature": 65,
+        "humidity": 78,
+        "user_id": 16
+    },
+    {
+        "name": "Chicken - Whole",
+        "description": "Bubalornis niger",
+        "type_of_fruit": "Limes",
+        "mass": 275,
+        "time": 60,
+        "temperature": 61,
+        "humidity": 51,
+        "user_id": 7
+    },
+    {
+        "name": "Sauce - Plum",
+        "description": "Ictalurus furcatus",
+        "type_of_fruit": "Chestnuts - Whole,canned",
+        "mass": 158,
+        "time": 35,
+        "temperature": 68,
+        "humidity": 84,
+        "user_id": 50
+    },
+    {
+        "name": "Cheese - Cheddar, Mild",
+        "description": "Marmota flaviventris",
+        "type_of_fruit": "Wine - Red, Gallo, Merlot",
+        "mass": 283,
+        "time": 49,
+        "temperature": 60,
+        "humidity": 74,
+        "user_id": 10
+    },
+    {
+        "name": "Beans - Turtle, Black, Dry",
+        "description": "Carduelis uropygialis",
+        "type_of_fruit": "Mop Head - Cotton, 24 Oz",
+        "mass": 179,
+        "time": 139,
+        "temperature": 70,
+        "humidity": 77,
+        "user_id": 50
+    },
+    {
+        "name": "Bread - Rosemary Focaccia",
+        "description": "Zosterops pallidus",
+        "type_of_fruit": "Sugar - Monocystal / Rock",
+        "mass": 278,
+        "time": 100,
+        "temperature": 55,
+        "humidity": 65,
+        "user_id": 32
+    },
+    {
+        "name": "Plasticknivesblack",
+        "description": "Naja haje",
+        "type_of_fruit": "Cheese - Colby",
+        "mass": 122,
+        "time": 96,
+        "temperature": 57,
+        "humidity": 57,
+        "user_id": 50
+    }
+]

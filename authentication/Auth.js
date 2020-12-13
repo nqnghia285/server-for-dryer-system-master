@@ -30,7 +30,10 @@ const createToken = (payload, option = {}) => {
 // otherwise return undefined
 const authenticateUserFromReq = (req) => {
     // Get token in headers
-    let userToken = req.headers['authorization'] || req.headers['x-access-token']
+    // let userToken = req.headers['authorization'] || req.headers['x-access-token']
+    // console.log('cookie: ' + req.headers.cookie);
+    // console.log('Cookies: ' + JSON.stringify(req.cookies))
+    let userToken = req.cookies.token
     if (userToken !== undefined) {
         // Remove 'Bearer ' from userToken
         if (userToken.startsWith('Bearer ')) {
