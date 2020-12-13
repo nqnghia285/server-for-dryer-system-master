@@ -26,6 +26,7 @@ const ScriptRoute = require('./routes/scripts/ScriptRoute')
 const MachineRoute = require('./routes/machines/MachineRoute')
 const DHT11Route = require('./routes/dht11s/DHT11Route')
 const CurrentSensorRoute = require('./routes/current_sensors/CurrentSensorRoute')
+const SessionRoute = require('./routes/sessions/SessionRoute')
 
 // Setup
 app.use(json())
@@ -65,6 +66,9 @@ app.use('/api/dht11/', DHT11Route)
 
 // Current sensor path
 app.use('/api/current-sensor/', CurrentSensorRoute)
+
+// Session path
+app.use('/api/session/', SessionRoute)
 
 // Server is listening clients
 server.listen(PORT, HOST_NAME, () => {

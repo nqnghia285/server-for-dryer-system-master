@@ -39,7 +39,7 @@ const updateDHT11 = async (req, res) => {
                 response.message = `The machine has dht11_id: ${req.body.dht11_id} do not exist in database.`
             }
         } else {
-            response.message = 'This account does not access the source'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

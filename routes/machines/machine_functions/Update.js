@@ -52,7 +52,7 @@ const updateMachine = async (req, res) => {
                 response.message = `The machine has machine_id: ${req.body.machine_id} do not exist in database.`
             }
         } else {
-            response.message = 'This account does not access the source'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

@@ -30,7 +30,7 @@ const deleteCurrentSensor = async (req, res) => {
                 response.message = `Do not find current sensor has current_sensor_id: ${req.body.current_sensor_id}`
             }
         } else {
-            response.message = 'This account does not access the source'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

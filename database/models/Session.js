@@ -8,11 +8,11 @@ Session.init(
         // Model attributes are defined here
         session_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
 
-        name: { type: DataTypes.STRING, allowNull: false },
+        name: { type: DataTypes.STRING, allowNull: false, defaultValue: '' },
 
         start_time: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW },
 
-        finish_time: { type: DataTypes.DATE, allowNull: false },
+        finish_time: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW },
 
         result: { type: DataTypes.STRING, defaultValue: null },
 

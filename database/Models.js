@@ -8,6 +8,7 @@ const Session = require('./models/Session')
 const CurrentSensor = require('./models/CurrentSensor')
 const DHT11 = require('./models/DHT11')
 const Data = require('./models/Data')
+const { mergeDayWithDuration } = require('../common_functions/SystemFunction')
 
 const Models = {}
 
@@ -59,7 +60,17 @@ Data.belongsTo(
 )
 
 /////////////////////////////////////
-// 
+// Add hooks
+Session.beforeCreate(async (session, options) => {
+    let script = await Script.findOne({ where: { script_id: session.script_id } })
+    let user = await User.findOne({ where: { user_id: session.user_id } })
+    let machine = await Machine.findOne({ where: { machine_id: session.machine_id } })
+
+    if (script !== null && user !== null && machine !== null) {
+        session.name = `${user.user_id}: ${user.getFullName()} - ${machine.machine_id}: ${machine.name} - ${script.script_id}: ${script.name}`
+        session.finish_time = mergeDayWithDuration(session.start_time, script.time)
+    }
+})
 
 ////////////////////////////////////
 // Create tables, constraints, functions, procedures, triggers in DB

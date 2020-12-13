@@ -31,7 +31,7 @@ const createCurrentSensor = async (req, res) => {
                     response.message = `Error: ${err.message}`
                 })
         } else {
-            response.message = 'This account does not access the source'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

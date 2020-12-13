@@ -1,5 +1,16 @@
 [
     {
+        "first_name": "Ngo",
+        "last_name": "Quang Nghia",
+        "gender": "male",
+        "date_of_birth": "01/20/1994",
+        "phone_number": "361-123-5140",
+        "address": "1063 Mccormick Center",
+        "username": "nghia@gmail.com",
+        "password": "$2b$10$TYI90NsOjBY2CzkbDMzWluZmR/Vf9ejhvzUcKEYt7lIYym6RUS1Aq",
+        "role": "admin"
+    },
+    {
         "first_name": "Hermia",
         "last_name": "Scanes",
         "gender": "male",

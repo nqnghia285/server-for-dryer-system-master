@@ -30,7 +30,7 @@ const deleteDHT11 = async (req, res) => {
                 response.message = `Do not find dht11 has dht11_id: ${req.body.dht11_id}`
             }
         } else {
-            response.message = 'This account does not access the source'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

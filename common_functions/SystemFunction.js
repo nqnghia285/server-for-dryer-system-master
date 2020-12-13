@@ -18,5 +18,16 @@ const hashPWD = (pwd, salt = bcrypt.genSaltSync()) => {
     }
 }
 
+const convertMinuteToMiliSecond = (minute) => {
+    return 1000 * 60 * minute
+}
+
+// Duration: minute
+const mergeDayWithDuration = (day, duration) => {
+    return new Date(day.getTime() + convertMinuteToMiliSecond(duration))
+}
+
 exports.comparePWD = comparePWD
 exports.hashPWD = hashPWD
+exports.convertMinuteToMiliSecond = convertMinuteToMiliSecond
+exports.mergeDayWithDuration = mergeDayWithDuration

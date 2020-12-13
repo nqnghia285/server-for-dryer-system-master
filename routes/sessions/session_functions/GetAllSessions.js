@@ -1,9 +1,9 @@
 const { authenticateUserFromReq } = require('../../../authentication/Auth')
-const { CurrentSensor } = require('../../../database/Models')
+const { Session } = require('../../../database/Models')
 
 const ADMIN = 'admin'
 
-const getAllCurrentSensors = async (req, res) => {
+const getAllSessions = async (req, res) => {
     const response = {}
     response.isValid = false
     response.isSuccess = false
@@ -14,16 +14,17 @@ const getAllCurrentSensors = async (req, res) => {
         if (payload.role === ADMIN) {
             response.isValid = true
 
-            await CurrentSensor.findAll()
-                .then(currentSensors => {
+            await Session.findAll()
+                .then(sessions => {
                     response.isSuccess = true
-                    response.currentSensors = currentSensors
-                    response.message = 'Get all of current sensors success.'
+                    response.sessions = sessions
+                    response.message = 'Get all of sessions success.'
                 })
                 .catch(err => {
                     response.message = `Error: ${err.message}`
                 })
         } else {
+            response.isSuccess = false
             response.message = 'This account does not have this permission'
         }
     } else {
@@ -35,4 +36,4 @@ const getAllCurrentSensors = async (req, res) => {
     res.json(response)
 }
 
-exports.getAllCurrentSensors = getAllCurrentSensors
+exports.getAllSessions = getAllSessions

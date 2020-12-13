@@ -1,9 +1,9 @@
 const { authenticateUserFromReq } = require("../../../authentication/Auth")
-const { Machine } = require("../../../database/Models")
+const { Session } = require("../../../database/Models")
 
 const ADMIN = 'admin'
 
-const deleteMachine = async (req, res) => {
+const deleteSession = async (req, res) => {
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -15,19 +15,19 @@ const deleteMachine = async (req, res) => {
         if (payload.role === ADMIN) {
             response.isValid = true
 
-            let machineDB = await Machine.findOne({ where: { machine_id: req.body.machine_id } })
+            let sessionDB = await Session.findOne({ where: { session_id: req.body.session_id } })
 
-            if (machineDB !== null) {
-                await machineDB.destroy()
+            if (sessionDB !== null) {
+                await sessionDB.destroy()
                     .then(() => {
                         response.isSuccess = true
-                        response.message = `You deleted a machine has machine_id: ${req.body.machine_id}.`
+                        response.message = `You deleted a session has session_id: ${req.body.session_id}.`
                     })
                     .catch(err => {
                         response.message = `Error: ${err.message}`
                     })
             } else {
-                response.message = `Do not find machine has machine_id: ${req.body.machine_id}`
+                response.message = `The session has session_id: ${req.body.session_id} do not exist in database.`
             }
         } else {
             response.message = 'This account does not have this permission'
@@ -41,4 +41,4 @@ const deleteMachine = async (req, res) => {
     res.json(response)
 }
 
-exports.deleteMachine = deleteMachine
+exports.deleteSession = deleteSession

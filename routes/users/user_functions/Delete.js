@@ -7,13 +7,13 @@ const deleteUser = async (req, res) => {
     // Authenticate user
     const response = {}
     response.isValid = false
+    response.isSuccess = false
 
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
-        response.isValid = true
-        response.isSuccess = false
         if (payload.role === ADMIN) {
+            response.isValid = true
 
             let userDB = await User.findOne({ where: { user_id: req.body.user_id } })
 
@@ -26,9 +26,10 @@ const deleteUser = async (req, res) => {
                     .catch(err => {
                         response.message = `Error: ${err.message}`
                     })
+            } else {
+                response.message = `The user has user_id: ${req.body.user_id} do not exist in database.`
             }
         } else {
-            response.isSuccess = false
             response.message = 'This account does not have this permission'
         }
     } else {
