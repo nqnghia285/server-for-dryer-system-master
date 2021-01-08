@@ -1,64 +1,98 @@
-const Connection = require('./Connection')
-const sequelize = Connection.sequelize
+const { sequelize } = require('./Connection')
+const { mergeDayWithDuration } = require('../common_functions/SystemFunction')
 
 const User = require('./models/User')
 const Script = require('./models/Script')
 const Machine = require('./models/Machine')
 const Session = require('./models/Session')
 const CurrentSensor = require('./models/CurrentSensor')
-const DHT11 = require('./models/DHT11')
+const DHT = require('./models/DHT')
 const Data = require('./models/Data')
-const { mergeDayWithDuration } = require('../common_functions/SystemFunction')
 
 const Models = {}
 
 ///////////////////////////////////////////////
 // Add constraints into the tables
+User.hasMany(
+    Script,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'user_id', targetKey: 'user_id' }
+)
 Script.belongsTo(
     User,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'user_id', targetKey: 'user_id' }
 )
 
-DHT11.belongsTo(
+Machine.hasMany(
+    DHT,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'machine_id', targetKey: 'machine_id' }
+)
+DHT.belongsTo(
     Machine,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'machine_id', targetKey: 'machine_id' }
 )
 
+Machine.hasMany(
+    CurrentSensor,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'machine_id', targetKey: 'machine_id' }
+)
 CurrentSensor.belongsTo(
     Machine,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'machine_id', targetKey: 'machine_id' }
 )
 
+Script.hasMany(
+    Session,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'script_id', targetKey: 'script_id' }
+)
 Session.belongsTo(
     Script,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'script_id', targetKey: 'script_id' }
 )
 
+User.hasMany(
+    Session,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'user_id', targetKey: 'user_id' }
+)
 Session.belongsTo(
     User,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'user_id', targetKey: 'user_id' }
 )
 
+Machine.hasMany(
+    Session,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'machine_id', targetKey: 'machine_id' }
+)
 Session.belongsTo(
     Machine,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'machine_id', targetKey: 'machine_id' }
 )
 
+Session.hasMany(
+    Data,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'session_id', targetKey: 'session_id' }
+)
 Data.belongsTo(
     Session,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'session_id', targetKey: 'session_id' }
 )
 
+CurrentSensor.hasMany(
+    Data,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'current_sensor_id', targetKey: 'current_sensor_id' }
+)
 Data.belongsTo(
     CurrentSensor,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'current_sensor_id', targetKey: 'current_sensor_id' }
 )
 
-Data.belongsTo(
-    DHT11,
-    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'dht11_id', targetKey: 'dht11_id' }
+DHT.hasMany(
+    Data,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'dht_id', targetKey: 'dht_id' }
 )
-
+Data.belongsTo(
+    DHT,
+    { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'dht_id', targetKey: 'dht_id' }
+)
 /////////////////////////////////////
 // Add hooks
 Session.beforeCreate(async (session, options) => {
@@ -83,7 +117,7 @@ sequelize.sync()
 /////////////////////////////////// 
 Models.CurrentSensor = CurrentSensor
 Models.Data = Data
-Models.DHT11 = DHT11
+Models.DHT = DHT
 Models.Machine = Machine
 Models.Script = Script
 Models.Session = Session

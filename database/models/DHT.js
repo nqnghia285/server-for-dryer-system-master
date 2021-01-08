@@ -1,16 +1,20 @@
 const { DataTypes, Model } = require('sequelize')
 const { sequelize, Sequelize } = require('../Connection')
 
-class CurrentSensor extends Model { }
+class DHT extends Model { }
 
-CurrentSensor.init(
+DHT.init(
     {
         // Model attributes are defined here
-        current_sensor_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
+        dht_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
 
-        current_range: { type: DataTypes.STRING(30), defaultValue: null },
+        temperature_range: { type: DataTypes.STRING(30), defaultValue: null },
 
-        current_accuracy: { type: DataTypes.STRING(20), defaultValue: null },
+        temperature_accuracy: { type: DataTypes.STRING(20), defaultValue: null },
+
+        humidity_range: { type: DataTypes.STRING(30), defaultValue: null },
+
+        humidity_accuracy: { type: DataTypes.STRING(20), defaultValue: null },
 
         name: { type: DataTypes.STRING, allowNull: false },
 
@@ -24,14 +28,14 @@ CurrentSensor.init(
         // Other model options go here
         sequelize,
         timestamps: false,
-        tableName: 'CurrentSensor'
+        tableName: 'DHT'
     }
 )
 
 // Create table base on model at DB
 const options = { alter: true }
 sequelize.sync()
-    .then(result => { console.log("Model CurrentSensor is created! ") })
+    .then(result => { console.log("Model DHT is created! ") })
     .catch(err => { console.log(err) })
 
-module.exports = CurrentSensor
+module.exports = DHT

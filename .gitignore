@@ -1,0 +1,10 @@
+# Ignore file .gitignore
+#.gitignore
+# Ignore folder node_modules
+#node_modules/
+# Ignore file .env
+#.env
+# Ignore file config.json
+#config.json
+# Ignore folder node_modules/
+node_modules/

@@ -34,7 +34,7 @@ Session.init(
 
 // Create table base on model at DB
 const options = { alter: true }
-Session.sync()
+sequelize.sync()
     .then(result => { console.log("Model Session is created! ") })
     .catch(err => { console.log(err) })
 

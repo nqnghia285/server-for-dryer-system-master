@@ -14,8 +14,6 @@ Machine.init(
 
         code: { type: DataTypes.STRING(100), unique: true, allowNull: false },
 
-        status: { type: DataTypes.ENUM({ values: ['off', 'on', 'running'] }), allowNull: false, defaultValue: 'off' },
-
         position: { type: DataTypes.STRING, allowNull: false },
 
         create_at: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW }
@@ -30,7 +28,7 @@ Machine.init(
 
 // Create table base on model at DB
 const options = { alter: true }
-Machine.sync()
+sequelize.sync()
     .then(result => { console.log("Model Machine is created! ") })
     .catch(err => { console.log(err) })
 

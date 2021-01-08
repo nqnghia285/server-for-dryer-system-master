@@ -32,11 +32,11 @@ User.init(
 
         address: { type: DataTypes.STRING, allowNull: false },
 
-        username: { type: DataTypes.STRING(60), unique: true, allowNull: false, validate: { is: /\S+@\S+\.\S+/i } },
+        email: { type: DataTypes.STRING(60), unique: true, allowNull: false, validate: { is: /\S+@\S+\.\S+/i } },
 
         password: { type: DataTypes.STRING(60), allowNull: false, validate: { is: /^[\S]{60}$/i } },
 
-        role: { type: DataTypes.ENUM({ values: ['employee', 'admin'] }), allowNull: false, defaultValue: 'employee' },
+        role: { type: DataTypes.ENUM({ values: ['employee', 'admin', 'manager'] }), allowNull: false, defaultValue: 'employee' },
 
         create_at: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW }
     },
@@ -50,7 +50,7 @@ User.init(
 
 // Create table base on model at DB
 const options = { alter: true }
-User.sync()
+sequelize.sync()
     .then(result => { console.log("Model User is created! ") })
     .catch(err => { console.log(err) })
 

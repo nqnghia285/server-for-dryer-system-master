@@ -9,22 +9,31 @@ const ORIGIN = process.env.ORIGIN
 const HOST_NAME = process.env.HOST_NAME
 const server = require("http").Server(app)
 
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const fs = require('fs')
 const cors = require('cors')
-
-const bodyParser = require('body-parser')
 const { json, urlencoded } = require('body-parser')
 const cookieParser = require('cookie-parser')
-
 const ip = require('ip')
+///////////////////////////////////////////////////////////////
+// Params Global
+const machineList = []
+///////////////////////////////////////////////////////////////
+// Socket.IO
+const io = require('socket.io')(server)
+const client = io.of('/client')
 
+io.on('connection', socket => {
+
+})
+
+client.on('connection', socket => {
+
+})
+//////////////////////////////////////////////////////////////
 // Require routes
 const UserRoute = require('./routes/users/UserRoute')
 const ScriptRoute = require('./routes/scripts/ScriptRoute')
 const MachineRoute = require('./routes/machines/MachineRoute')
-const DHT11Route = require('./routes/dht11s/DHT11Route')
+const DHTRoute = require('./routes/dhts/DHTRoute')
 const CurrentSensorRoute = require('./routes/current_sensors/CurrentSensorRoute')
 const SessionRoute = require('./routes/sessions/SessionRoute')
 
@@ -34,11 +43,11 @@ app.use(urlencoded({ extended: false }))
 app.use(cookieParser())
 
 const config = {
-    'origin': ORIGIN,
-    'allowedHeaders': ['Content-Type', 'Authorization', 'Accept'],
-    'credentials': true,
-    'methods': ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH'],
-    'optionSuccessStatus': 200
+    origin: ORIGIN,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH'],
+    optionSuccessStatus: 200
 }
 app.use(cors(config))
 
@@ -53,22 +62,22 @@ app.get('/', (req, res) => {
 })
 
 // User path
-app.use('/api/user/', UserRoute)
+app.use('/api/user', UserRoute)
 
 // Script path
-app.use('/api/script/', ScriptRoute)
+app.use('/api/script', ScriptRoute)
 
 // Machine path
-app.use('/api/machine/', MachineRoute)
+app.use('/api/machine', MachineRoute)
 
 // DHT11 path
-app.use('/api/dht11/', DHT11Route)
+app.use('/api/dht', DHTRoute)
 
 // Current sensor path
-app.use('/api/current-sensor/', CurrentSensorRoute)
+app.use('/api/current-sensor', CurrentSensorRoute)
 
 // Session path
-app.use('/api/session/', SessionRoute)
+app.use('/api/session', SessionRoute)
 
 // Server is listening clients
 server.listen(PORT, HOST_NAME, () => {

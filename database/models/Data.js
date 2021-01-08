@@ -18,7 +18,9 @@ Data.init(
 
         session_id: { type: DataTypes.SMALLINT, primaryKey: true },
 
-        dht11_id: { type: DataTypes.SMALLINT, primaryKey: true },
+        dht_id: { type: DataTypes.SMALLINT, primaryKey: true },
+
+        machine_id: { type: DataTypes.SMALLINT, primaryKey: true },
 
         current_sensor_id: { type: DataTypes.SMALLINT, primaryKey: true }
     },
@@ -32,7 +34,7 @@ Data.init(
 
 // Create table base on model at DB
 const options = { alter: true }
-Data.sync()
+sequelize.sync()
     .then(result => { console.log("Model Data is created! ") })
     .catch(err => { console.log(err) })
 

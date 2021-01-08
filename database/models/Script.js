@@ -1,14 +1,14 @@
 const { DataTypes, Model } = require('sequelize')
 const { Sequelize, sequelize } = require('../Connection')
 
-class Scrip extends Model { }
+class Script extends Model { }
 
-Scrip.init(
+Script.init(
     {
         // Model attributes are defined here
         script_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
 
-        name: { type: DataTypes.STRING, allowNull: false },
+        name: { type: DataTypes.STRING, unique: true, allowNull: false },
 
         description: { type: DataTypes.STRING, defaultValue: null },
 
@@ -30,14 +30,14 @@ Scrip.init(
         // Other model options go here
         sequelize,
         timestamps: false,
-        tableName: 'Scrip'
+        tableName: 'Script'
     }
 )
 
 // Create table base on model at DB
 const options = { alter: true }
-Scrip.sync()
-    .then(result => { console.log("Model Scrip is created! ") })
+sequelize.sync()
+    .then(result => { console.log("Model Script is created! ") })
     .catch(err => { console.log(err) })
 
-module.exports = Scrip
+module.exports = Script

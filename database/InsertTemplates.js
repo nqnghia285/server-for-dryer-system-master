@@ -5,7 +5,7 @@ const sleep = require('../common_functions/sleep')
 
 const CurrentSensor = Models.CurrentSensor
 const Data = Models.Data
-const DHT11 = Models.DHT11
+const DHT = Models.DHT
 const Machine = Models.Machine
 const Script = Models.Script
 const Session = Models.Session
