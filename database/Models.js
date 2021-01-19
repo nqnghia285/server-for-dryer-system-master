@@ -9,8 +9,6 @@ const CurrentSensor = require('./models/CurrentSensor')
 const DHT = require('./models/DHT')
 const Data = require('./models/Data')
 
-const Models = {}
-
 ///////////////////////////////////////////////
 // Add constraints into the tables
 User.hasMany(
@@ -114,13 +112,15 @@ sequelize.sync()
     .then(() => { })
     .catch(err => { console.log('Sequelize sync: ', err) })
 
-/////////////////////////////////// 
-Models.CurrentSensor = CurrentSensor
-Models.Data = Data
-Models.DHT = DHT
-Models.Machine = Machine
-Models.Script = Script
-Models.Session = Session
-Models.User = User
+///////////////////////////////////
+const Models = {
+    CurrentSensor: CurrentSensor,
+    Data: Data,
+    DHT: DHT,
+    Machine: Machine,
+    Script: Script,
+    Session: Session,
+    User: User
+}
 
 module.exports = Models

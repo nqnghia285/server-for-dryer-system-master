@@ -1,11 +1,11 @@
 const { DataTypes, Model } = require('sequelize')
-const { Sequelize, sequelize } = require('../Connection')
+const { sequelize, Sequelize } = require('../Connection')
 
 class User extends Model {
     getInfo() {
         return {
             user_id: this.user_id,
-            username: this.username,
+            email: this.email,
             role: this.role
         }
     }
@@ -24,9 +24,9 @@ User.init(
 
         last_name: { type: DataTypes.STRING(30), allowNull: false },
 
-        gender: { type: DataTypes.ENUM({ values: ['male', 'female'] }), allowNull: false, defaultValue: 'male' },
+        gender: { type: DataTypes.ENUM(['male', 'female']), allowNull: false, defaultValue: 'male' },
 
-        date_of_birth: { type: DataTypes.DATEONLY },
+        date_of_birth: { type: DataTypes.DATEONLY, defaultValue: null },
 
         phone_number: { type: DataTypes.STRING(20), allowNull: false, validate: { is: /^[\d\-]{10,15}$/ } },
 
@@ -36,7 +36,7 @@ User.init(
 
         password: { type: DataTypes.STRING(60), allowNull: false, validate: { is: /^[\S]{60}$/i } },
 
-        role: { type: DataTypes.ENUM({ values: ['employee', 'admin', 'manager'] }), allowNull: false, defaultValue: 'employee' },
+        role: { type: DataTypes.ENUM(['employee', 'admin', 'manager']), allowNull: false, defaultValue: 'employee' },
 
         create_at: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW }
     },

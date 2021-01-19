@@ -1,3 +1,4 @@
+const { Op } = require("sequelize")
 const { authenticateUserFromReq, createToken } = require("../../../authentication/Auth")
 const { hashPWD } = require("../../../common_functions/SystemFunction")
 const { User } = require("../../../database/Models")
@@ -13,6 +14,8 @@ const updateUser = async (req, res) => {
     response.isValid = false
     response.isSuccess = false
 
+    console.log('Body: ', req.body);
+
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
@@ -21,48 +24,66 @@ const updateUser = async (req, res) => {
         const user = {}
         let isPassed = false
 
-        if (req.body.profile === TRUE) {
+        if (req.body.isProfile) {
+            user.user_id = req.body.user_id
             user.first_name = req.body.first_name
             user.last_name = req.body.last_name
             user.gender = req.body.gender
             user.date_of_birth = req.body.date_of_birth
             user.phone_number = req.body.phone_number
             user.address = req.body.address
-            user.username = req.body.username
+            user.email = req.body.email
 
-            let flag = await isUserExist(user.username)
+            let flag = await isUserExist(user.email)
 
-            if (!flag) {
-                isPassed = true
+            if (flag) {
+                let userExist = await User.findOne({
+                    where: {
+                        [Op.and]: [
+                            { user_id: user.user_id },
+                            { email: user.email }
+                        ]
+                    }
+                })
+
+                if (userExist !== null) {
+                    isPassed = true
+                } else {
+                    response.message = `This email: ${user.email} existed in database.`
+                }
             } else {
-                response.message = `The fields are invalid or ${user.username} existed in database.`
+                isPassed = true
             }
         } else {
-            user.password = hashPWD(req.body.password)
+            if (req.body.password !== undefined && req.body.password !== '') {
+                user.user_id = req.body.user_id
+                user.password = hashPWD(req.body.password)
 
-            const regex = /^[\S]{6,20}$/i
-            if (regex.test(req.body.password)) {
-                isPassed = true
+                const regex = /^[\S]{6,20}$/i
+                if (regex.test(req.body.password)) {
+                    isPassed = true
+                } else {
+                    response.message = 'The new password is invalid.'
+                }
             } else {
-                response.message = 'The new password is invalid.'
+                response.message = 'The new password is undefined.'
             }
         }
 
         if (isPassed) {
-            let user_id = ''
-            if (req.body.isMyself === TRUE) {
-                user_id = payload.user_id
-            } else if (payload.role === ADMIN) {
-                user_id = req.body.user_id
+            if (payload.role === ADMIN && payload.user_id !== user.user_id) {
+                if (req.body.role) {
+                    user.role = req.body.role
+                }
             }
 
-            let userDB = await User.findOne({ where: { user_id: user_id } })
+            let userDB = await User.findOne({ where: { user_id: user.user_id } })
 
             if (userDB !== null) {
                 await userDB.update(user)
                     .then(() => {
                         response.isSuccess = true
-                        if (req.body.profile === TRUE) {
+                        if (req.body.isProfile) {
                             response.message = `Update profile is successful.`
                         } else {
                             response.message = `Update password is successful.`
@@ -71,16 +92,15 @@ const updateUser = async (req, res) => {
                     .catch(err => {
                         response.message = `Error: ${err.message}`
                     })
-            } else {
-                response.message = `Do not find ${user_id}`
-            }
 
-            if (req.body.isMyself === TRUE && response.isSuccess) {
+                console.log('id payload: ', payload.user_id);
+                console.log('id user: ', user.user_id);
 
-                let userDB = await User.findOne({ where: { user_id: payload.user_id } })
-
-                if (userDB !== null) {
+                // Update info themself
+                if (payload.user_id === user.user_id) {
                     let userToken = createToken(userDB.getInfo(), { expiresIn: '1h' })
+
+                    console.log('Token: ', userToken);
 
                     // Insert token into cookie
                     res.cookie(
@@ -94,6 +114,8 @@ const updateUser = async (req, res) => {
                         }
                     )
                 }
+            } else {
+                response.message = `Do not find ${user_id}`
             }
         }
     } else {

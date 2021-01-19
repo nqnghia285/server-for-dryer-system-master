@@ -4,18 +4,20 @@ const { getAllUsers } = require('./user_functions/GetAllUsers')
 const { getProfile } = require('./user_functions/GetProfile')
 const { isUserExist } = require('./user_functions/IsUserExist')
 const { login } = require('./user_functions/Login')
+const { logout } = require('./user_functions/Logout')
 const { registerUser } = require('./user_functions/Register')
 const { updateUser } = require('./user_functions/Update')
 
-const UserFunction = {}
-
-UserFunction.isUserExist = isUserExist
-UserFunction.checkUser = checkUser
-UserFunction.login = login
-UserFunction.getAllUsers = getAllUsers
-UserFunction.registerUser = registerUser
-UserFunction.getProfile = getProfile
-UserFunction.updateUser = updateUser
-UserFunction.deleteUser = deleteUser
+const UserFunction = {
+    isUserExist: isUserExist,
+    checkUser: checkUser,
+    login: login,
+    getAllUsers: getAllUsers,
+    registerUser: registerUser,
+    getProfile: getProfile,
+    updateUser: updateUser,
+    deleteUser: deleteUser,
+    logout: logout
+}
 
 module.exports = UserFunction

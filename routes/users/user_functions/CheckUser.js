@@ -2,7 +2,7 @@ const { isUserExist } = require("./IsUserExist")
 
 const checkUser = async (req, res) => {
     const response = {}
-    const flag = await isUserExist(req.body.username)
+    const flag = await isUserExist(req.body.email)
     if (flag) {
         response.isUserExist = true
         response.message = 'User is exist'

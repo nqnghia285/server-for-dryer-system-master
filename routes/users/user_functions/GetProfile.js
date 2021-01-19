@@ -14,6 +14,7 @@ const getProfile = async (req, res) => {
         await User.findOne({ where: { user_id: payload.user_id } })
             .then(userDB => {
                 response.isSuccess = true
+                response.message = 'Get profile success.'
                 const user = {
                     first_name: userDB.first_name,
                     last_name: userDB.last_name,
@@ -21,8 +22,9 @@ const getProfile = async (req, res) => {
                     date_of_birth: userDB.date_of_birth,
                     phone_number: userDB.phone_number,
                     address: userDB.address,
-                    username: userDB.username,
-                    role: userDB.role
+                    email: userDB.email,
+                    role: userDB.role,
+                    create_at: userDB.create_at
                 }
                 response.user = user
             })

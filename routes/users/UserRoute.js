@@ -1,7 +1,7 @@
 const express = require('express')
 const UserRoute = express.Router()
 
-const { login, getAllUsers, registerUser, checkUser, getProfile, updateUser, deleteUser } = require('./UserFunction')
+const { login, logout, getAllUsers, registerUser, checkUser, getProfile, updateUser, deleteUser } = require('./UserFunction')
 
 // Register user
 UserRoute.post('/register/', (req, res) => {
@@ -36,6 +36,11 @@ UserRoute.put('/update/', (req, res) => {
 // Delete user
 UserRoute.delete('/delete/', (req, res) => {
     deleteUser(req, res)
+})
+
+// Logout
+UserRoute.delete('/logout/', (req, res) => {
+    logout(req, res)
 })
 
 module.exports = UserRoute

@@ -2,8 +2,6 @@ const config = require('../config.json')
 const { host, database, username, password, port, dialect } = config.database
 const Sequelize = require('sequelize')
 
-const Connection = {};
-
 const sequelize = new Sequelize(
     database,
     username,
@@ -32,7 +30,9 @@ const sequelize = new Sequelize(
     }
 )
 
-Connection.sequelize = sequelize
-Connection.Sequelize = Sequelize
+const Connection = {
+    sequelize: sequelize,
+    Sequelize: Sequelize
+}
 
 module.exports = Connection

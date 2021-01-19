@@ -1,9 +1,13 @@
 const { Machine } = require("../../../database/Models")
 const { authenticateUserFromReq } = require("../../../authentication/Auth")
+const { updateMachineList } = require("../../../server")
 
 const ADMIN = 'admin'
 
 const createMachine = async (req, res) => {
+    // Global variables of app
+    const machineList = req.app.locals.machineList
+    const client = req.app.locals.client
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -25,6 +29,8 @@ const createMachine = async (req, res) => {
                 .then(() => {
                     response.isSuccess = true
                     response.message = 'Create machine success'
+                    updateMachineList({ code: machine.code, status: 'off' }, machineList)
+                    client.emit('server-send-update-machine-list', { machineList: machineList })
                 })
                 .catch(err => {
                     response.message = `Error: ${err.message}`

@@ -1,10 +1,15 @@
 const { Op } = require('sequelize')
 const { authenticateUserFromReq } = require('../../../authentication/Auth')
 const { Machine } = require('../../../database/Models')
+const { updateMachineList } = require('../../../server')
 
 const ADMIN = 'admin'
 
 const updateMachine = async (req, res) => {
+    // Global variables of app
+    const machineList = req.app.locals.machineList
+    const client = req.app.locals.client
+    // Authenticate user
     const response = {}
     response.isValid = false
     response.isSuccess = false
@@ -41,6 +46,8 @@ const updateMachine = async (req, res) => {
                         .then(() => {
                             response.isSuccess = true
                             response.message = 'Update machine success'
+                            updateMachineList({ code: machine.code, status: 'off' }, machineList)
+                            client.emit('server-send-update-machine-list', { machineList: machineList })
                         })
                         .catch(err => {
                             response.message = `Error: ${err.message}`

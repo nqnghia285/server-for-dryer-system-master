@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
-const { Sequelize, sequelize } = require('../Connection')
+const { sequelize, Sequelize } = require('../Connection')
 
 class Script extends Model { }
 
@@ -18,9 +18,9 @@ Script.init(
 
         time: { type: DataTypes.INTEGER, allowNull: false },
 
-        temperature: { type: DataTypes.SMALLINT, allowNull: false },
+        temperature: { type: DataTypes.FLOAT, allowNull: false },
 
-        humidity: { type: DataTypes.SMALLINT, allowNull: false },
+        humidity: { type: DataTypes.FLOAT, allowNull: false },
 
         user_id: { type: DataTypes.SMALLINT, allowNull: false },
 

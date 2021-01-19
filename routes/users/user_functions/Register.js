@@ -19,10 +19,10 @@ const registerUser = async (req, res) => {
             let flag = await createUser(req)
             if (flag) {
                 response.isSuccess = true
-                response.message = `The ${req.body.username} was registered.`
+                response.message = `The ${req.body.email} was registered.`
             } else {
                 response.isSuccess = false
-                response.message = 'The username existed or inserting user into database is failed'
+                response.message = 'The email existed or inserting user into database is failed'
             }
         } else {
             response.message = 'This account does not access the source'
@@ -44,7 +44,7 @@ const createUser = async (req) => {
         date_of_birth,
         phone_number,
         address,
-        username,
+        email,
         password,
         role
     } = req.body
@@ -52,7 +52,7 @@ const createUser = async (req) => {
     let isSuccess = false
 
     // Check username exist
-    let flag = await isUserExist(user.username)
+    let flag = await isUserExist(user.email)
     if (!flag) {
         user.password = hashPWD(user.password)
         if (user.password === undefined) {
@@ -60,11 +60,8 @@ const createUser = async (req) => {
         }
 
         await User.create(user)
-            .then(() => {
-                isSuccess = true
-            })
-            .catch(err => {
-            })
+            .then(() => { isSuccess = true })
+            .catch(err => { })
     }
 
     return isSuccess

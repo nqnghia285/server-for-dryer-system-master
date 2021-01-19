@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
-const { Sequelize, sequelize } = require('../Connection')
+const { sequelize, Sequelize } = require('../Connection')
 
 class Session extends Model { }
 
@@ -14,15 +14,15 @@ Session.init(
 
         finish_time: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW },
 
-        result: { type: DataTypes.STRING, defaultValue: null },
-
-        create_at: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW },
+        result: { type: DataTypes.ENUM(['bad', 'medium', 'good']), defaultValue: 'medium' },
 
         user_id: { type: DataTypes.SMALLINT, allowNull: false },
 
         script_id: { type: DataTypes.SMALLINT, allowNull: false },
 
-        machine_id: { type: DataTypes.SMALLINT, allowNull: false }
+        machine_id: { type: DataTypes.SMALLINT, allowNull: false },
+
+        create_at: { type: DataTypes.DATE, allowNull: false, defaultValue: Sequelize.NOW }
     },
     {
         // Other model options go here

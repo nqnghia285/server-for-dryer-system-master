@@ -46,6 +46,10 @@ const authenticateUserFromReq = (req) => {
     }
 }
 
-exports.authenticateUser = authenticateUser
-exports.createToken = createToken
-exports.authenticateUserFromReq = authenticateUserFromReq
+const Auth = {
+    authenticateUser: authenticateUser,
+    createToken: createToken,
+    authenticateUserFromReq: authenticateUserFromReq
+}
+
+module.exports = Auth

@@ -2,6 +2,7 @@ const { authenticateUserFromReq } = require("../../../authentication/Auth")
 const { User } = require("../../../database/Models")
 
 const ADMIN = 'admin'
+const MANAGER = 'manager'
 
 const getAllUsers = async (req, res) => {
     const response = {}
@@ -11,8 +12,9 @@ const getAllUsers = async (req, res) => {
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
-        if (payload.role === ADMIN) {
+        if (payload.role === ADMIN || payload.role === MANAGER) {
             response.isValid = true
+            response.message = 'Get all of users success.'
 
             // Wait querying database until it is finished
             /*
@@ -29,14 +31,14 @@ const getAllUsers = async (req, res) => {
                     'date_of_birth',
                     'phone_number',
                     'address',
-                    'username',
-                    'role'
+                    'email',
+                    'role',
+                    'create_at'
                 ]
             })
                 .then(users => {
                     response.isSuccess = true
                     response.users = users
-                    response.message = 'Get all of users success.'
                 })
                 .catch(err => {
                     response.message = `Error: ${err.message}`

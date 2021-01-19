@@ -1,7 +1,7 @@
 const { authenticateUserFromReq } = require("../../../authentication/Auth")
 const { Script } = require("../../../database/Models")
 
-const deleteScrip = async (req, res) => {
+const deleteScript = async (req, res) => {
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -35,4 +35,4 @@ const deleteScrip = async (req, res) => {
     res.json(response)
 }
 
-exports.deleteScrip = deleteScrip
+exports.deleteScript = deleteScript

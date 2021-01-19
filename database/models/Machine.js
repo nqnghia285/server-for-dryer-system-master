@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
-const { Sequelize, sequelize } = require('../Connection')
+const { sequelize, Sequelize } = require('../Connection')
 
 class Machine extends Model { }
 

@@ -1,9 +1,13 @@
 const { authenticateUserFromReq } = require("../../../authentication/Auth")
+const { findIndexOfMachineInList } = require("../../../common_functions/SystemFunction")
 const { Machine } = require("../../../database/Models")
 
 const ADMIN = 'admin'
 
 const deleteMachine = async (req, res) => {
+    // Global variables of app
+    const machineList = req.app.locals.machineList
+    const client = req.app.locals.client
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -18,10 +22,13 @@ const deleteMachine = async (req, res) => {
             let machineDB = await Machine.findOne({ where: { machine_id: req.body.machine_id } })
 
             if (machineDB !== null) {
+                const code = machineDB.code
                 await machineDB.destroy()
                     .then(() => {
                         response.isSuccess = true
                         response.message = `You deleted a machine has machine_id: ${req.body.machine_id}.`
+                        machineList.splice(findIndexOfMachineInList(code, machineList), 1)
+                        client.emit('server-send-update-machine-list', { machineList: machineList })
                     })
                     .catch(err => {
                         response.message = `Error: ${err.message}`
