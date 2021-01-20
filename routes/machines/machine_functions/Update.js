@@ -7,8 +7,7 @@ const ADMIN = 'admin'
 
 const updateMachine = async (req, res) => {
     // Global variables of app
-    const machineList = req.app.locals.machineList
-    const client = req.app.locals.client
+    const { machineList, client } = req.app.locals
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -21,27 +20,24 @@ const updateMachine = async (req, res) => {
             response.isValid = true
 
             const machine = {
-                name: req.body.name,
-                description: req.body.description,
-                code: req.body.code,
-                status: req.body.status,
-                position: req.body.position
-            }
+                machine_id, name, description, code, position
+            } = req.body
 
-            let machineDB = await Machine.findOne({ where: { machine_id: req.body.machine_id } })
+            let machineDB = await Machine.findOne({ where: { machine_id: machine.machine_id } })
 
             if (machineDB !== null) {
-                let machineValidate = await Machine.findOne(
+                let machineExist = await Machine.findOne(
                     {
                         where: {
+                            machine_id: { [Op.ne]: machine.machine_id },
                             [Op.or]: [
-                                { name: req.body.name },
-                                { code: req.body.code }
+                                { name: machine.name },
+                                { code: machine.code }
                             ]
                         }
                     })
 
-                if (machineValidate === null) {
+                if (machineExist === null) {
                     await machineDB.update(machine)
                         .then(() => {
                             response.isSuccess = true

@@ -6,12 +6,13 @@ const ADMIN = 'admin'
 
 const deleteMachine = async (req, res) => {
     // Global variables of app
-    const machineList = req.app.locals.machineList
-    const client = req.app.locals.client
+    const { machineList, client } = req.app.locals
     // Authenticate user
     const response = {}
     response.isValid = false
     response.isSuccess = false
+
+    const { machine_id } = req.body
 
     const payload = authenticateUserFromReq(req)
 
@@ -19,14 +20,14 @@ const deleteMachine = async (req, res) => {
         if (payload.role === ADMIN) {
             response.isValid = true
 
-            let machineDB = await Machine.findOne({ where: { machine_id: req.body.machine_id } })
+            let machineDB = await Machine.findOne({ where: { machine_id: machine_id } })
 
             if (machineDB !== null) {
                 const code = machineDB.code
                 await machineDB.destroy()
                     .then(() => {
                         response.isSuccess = true
-                        response.message = `You deleted a machine has machine_id: ${req.body.machine_id}.`
+                        response.message = `You deleted a machine has machine_id: ${machine_id}.`
                         machineList.splice(findIndexOfMachineInList(code, machineList), 1)
                         client.emit('server-send-update-machine-list', { machineList: machineList })
                     })
@@ -34,7 +35,7 @@ const deleteMachine = async (req, res) => {
                         response.message = `Error: ${err.message}`
                     })
             } else {
-                response.message = `Do not find machine has machine_id: ${req.body.machine_id}`
+                response.message = `Do not find machine has machine_id: ${machine_id}`
             }
         } else {
             response.message = 'This account does not have this permission'

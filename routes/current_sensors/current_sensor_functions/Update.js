@@ -15,14 +15,10 @@ const updateCurrentSensor = async (req, res) => {
             response.isValid = true
 
             const currentSensor = {
-                current_range: req.body.current_range,
-                current_accuracy: req.body.current_accuracy,
-                name: req.body.name,
-                description: req.body.description,
-                machine_id: req.body.machine_id
-            }
+                current_sensor_id, current_range, current_accuracy, name, description, machine_id
+            } = req.body
 
-            let currentSensorDB = await CurrentSensor.findOne({ where: { current_sensor_id: req.body.current_sensor_id } })
+            let currentSensorDB = await CurrentSensor.findOne({ where: { current_sensor_id: currentSensor.current_sensor_id } })
 
             if (currentSensorDB !== null) {
                 await currentSensorDB.update(currentSensor)
@@ -34,7 +30,7 @@ const updateCurrentSensor = async (req, res) => {
                         response.message = `Error: ${err.message}`
                     })
             } else {
-                response.message = `The current sensor has current_sensor_id: ${req.body.current_sensor_id} do not exist in database.`
+                response.message = `The current sensor has current_sensor_id: ${currentSensor.current_sensor_id} do not exist in database.`
             }
         } else {
             response.message = 'This account does not have this permission'

@@ -29,17 +29,17 @@ UserRoute.get('/get-profile/', (req, res) => {
 })
 
 // Update user
-UserRoute.put('/update/', (req, res) => {
+UserRoute.post('/update/', (req, res) => {
     updateUser(req, res)
 })
 
 // Delete user
-UserRoute.delete('/delete/', (req, res) => {
+UserRoute.post('/delete/', (req, res) => {
     deleteUser(req, res)
 })
 
 // Logout
-UserRoute.delete('/logout/', (req, res) => {
+UserRoute.post('/logout/', (req, res) => {
     logout(req, res)
 })
 

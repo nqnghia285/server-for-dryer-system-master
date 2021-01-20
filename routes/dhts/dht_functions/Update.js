@@ -15,16 +15,10 @@ const updateDHT = async (req, res) => {
             response.isValid = true
 
             const dht = {
-                temperature_range: req.body.temperature_range,
-                temperature_accuracy: req.body.temperature_accuracy,
-                humidity_range: req.body.humidity_range,
-                humidity_accuracy: req.body.humidity_accuracy,
-                name: req.body.name,
-                description: req.body.description,
-                machine_id: req.body.machine_id
-            }
+                dht_id, temperature_range, temperature_accuracy, humidity_range, humidity_accuracy, name, description, machine_id
+            } = req.body
 
-            let dhtDB = await DHT11.findOne({ where: { dht_id: req.body.dht_id } })
+            let dhtDB = await DHT.findOne({ where: { dht_id: dht.dht_id } })
 
             if (dhtDB !== null) {
                 await dhtDB.update(dht)

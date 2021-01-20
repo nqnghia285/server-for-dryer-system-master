@@ -15,19 +15,21 @@ const deleteDHT = async (req, res) => {
         if (payload.role === ADMIN) {
             response.isValid = true
 
-            let dhtDB = await DHT.findOne({ where: { dht_id: req.body.dht_id } })
+            const { dht_id } = req.body
+
+            let dhtDB = await DHT.findOne({ where: { dht_id: dht_id } })
 
             if (dhtDB !== null) {
                 await dhtDB.destroy()
                     .then(() => {
                         response.isSuccess = true
-                        response.message = `You deleted a dht has dht_id: ${req.body.dht_id}.`
+                        response.message = `You deleted a dht has dht_id: ${dht_id}.`
                     })
                     .catch(err => {
                         response.message = `Error: ${err.message}`
                     })
             } else {
-                response.message = `Do not find dht has dht_id: ${req.body.dht_id}`
+                response.message = `Do not find dht has dht_id: ${dht_id}`
             }
         } else {
             response.message = 'This account does not have this permission'

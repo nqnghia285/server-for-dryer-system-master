@@ -91,6 +91,7 @@ Data.belongsTo(
     DHT,
     { onUpdate: 'CASCADE', onDelete: 'CASCADE', foreignKey: 'dht_id', targetKey: 'dht_id' }
 )
+
 /////////////////////////////////////
 // Add hooks
 Session.beforeCreate(async (session, options) => {

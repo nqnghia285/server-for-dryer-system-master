@@ -11,16 +11,11 @@ const createScript = async (req, res) => {
 
     if (payload !== undefined) {
         response.isValid = true
-        let script = {
-            name: req.body.name,
-            description: req.body.description,
-            type_of_fruit: req.body.type_of_fruit,
-            mass: req.body.mass,
-            time: req.body.time,
-            temperature: req.body.temperature,
-            humidity: req.body.humidity,
-            user_id: payload.user_id
-        }
+        const script = {
+            name, description, type_of_fruit, mass, time, temperature, humidity
+        } = req.body
+
+        script.user_id = payload.user_id
 
         await Script.create(script)
             .then(() => {

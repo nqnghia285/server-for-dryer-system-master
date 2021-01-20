@@ -17,8 +17,8 @@ const getAllCurrentSensors = async (req, res) => {
             await CurrentSensor.findAll()
                 .then(currentSensors => {
                     response.isSuccess = true
-                    response.currentSensors = currentSensors
                     response.message = 'Get all of current sensors success.'
+                    response.currentSensors = currentSensors
                 })
                 .catch(err => {
                     response.message = `Error: ${err.message}`

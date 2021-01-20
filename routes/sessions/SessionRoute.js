@@ -9,12 +9,12 @@ SessionRoute.post('/create/', (req, res) => {
 })
 
 // Delete session
-SessionRoute.delete('/delete/', (req, res) => {
+SessionRoute.post('/delete/', (req, res) => {
     deleteSession(req, res)
 })
 
 // Update session
-SessionRoute.put('/update/', (req, res) => {
+SessionRoute.post('/update/', (req, res) => {
     updateSession(req, res)
 })
 

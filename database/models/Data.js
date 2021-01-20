@@ -8,11 +8,11 @@ Data.init(
         // Model attributes are defined here
         data_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
 
-        temperature: { type: DataTypes.FLOAT, allowNull: false },
+        temperature: { type: DataTypes.FLOAT, defaultValue: 0 },
 
-        humidity: { type: DataTypes.FLOAT, allowNull: false },
+        humidity: { type: DataTypes.FLOAT, defaultValue: 0 },
 
-        current: { type: DataTypes.FLOAT, allowNull: false },
+        current: { type: DataTypes.FLOAT, defaultValue: 0 },
 
         session_id: { type: DataTypes.SMALLINT, primaryKey: true },
 

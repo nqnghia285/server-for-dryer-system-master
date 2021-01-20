@@ -12,17 +12,11 @@ const updateScript = async (req, res) => {
         response.isValid = true
 
         const script = {
-            name: req.body.name,
-            description: req.body.description,
-            type_of_fruit: req.body.type_of_fruit,
-            mass: req.body.mass,
-            time: req.body.time,
-            temperature: req.body.temperature,
-            humidity: req.body.humidity,
-            user_id: payload.user_id
-        }
+            script_id, name, description, type_of_fruit, mass, time, temperature, humidity
+        } = req.body
+        script.user_id = payload.user_id
 
-        let scriptDB = await Script.findOne({ where: { script_id: req.body.script_id } })
+        let scriptDB = await Script.findOne({ where: { script_id: script.script_id } })
 
         if (scriptDB !== null) {
             await scriptDB.update(script)
@@ -34,7 +28,7 @@ const updateScript = async (req, res) => {
                     response.message = `Error: ${err.message}`
                 })
         } else {
-            response.message = `The script has script_id: ${req.body.script_id} do not exist in database.`
+            response.message = `The script has script_id: ${script.script_id} do not exist in database.`
         }
     } else {
         response.message = 'The user token is invalid'

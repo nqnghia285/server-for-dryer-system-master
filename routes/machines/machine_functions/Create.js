@@ -6,8 +6,7 @@ const ADMIN = 'admin'
 
 const createMachine = async (req, res) => {
     // Global variables of app
-    const machineList = req.app.locals.machineList
-    const client = req.app.locals.client
+    const { machineList, client } = req.app.locals
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -19,17 +18,14 @@ const createMachine = async (req, res) => {
         if (payload.role === ADMIN) {
             response.isValid = true
             let machine = {
-                name: req.body.name,
-                description: req.body.description,
-                code: req.body.code,
-                position: req.body.position
-            }
+                name, description, code, position
+            } = req.body
 
             await Machine.create(machine)
-                .then(() => {
+                .then(async () => {
                     response.isSuccess = true
-                    response.message = 'Create machine success'
-                    updateMachineList({ code: machine.code, status: 'off' }, machineList)
+                    response.message = 'Create machine success.'
+                    await updateMachineList({ code: machine.code, status: 'off' }, machineList)
                     client.emit('server-send-update-machine-list', { machineList: machineList })
                 })
                 .catch(err => {

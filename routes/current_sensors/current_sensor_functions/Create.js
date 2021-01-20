@@ -14,18 +14,15 @@ const createCurrentSensor = async (req, res) => {
     if (payload !== undefined) {
         if (payload.role === ADMIN) {
             response.isValid = true
-            let currentSensor = {
-                current_range: req.body.current_range,
-                current_accuracy: req.body.current_accuracy,
-                name: req.body.name,
-                description: req.body.description,
-                machine_id: req.body.machine_id
-            }
+
+            const currentSensor = {
+                current_range, current_accuracy, name, description, machine_id
+            } = req.body
 
             await CurrentSensor.create(currentSensor)
                 .then(() => {
                     response.isSuccess = true
-                    response.message = 'Create currentSensor success'
+                    response.message = 'Create current sensor success'
                 })
                 .catch(err => {
                     response.message = `Error: ${err.message}`

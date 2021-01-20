@@ -9,25 +9,27 @@ const deleteCurrentSensor = async (req, res) => {
     response.isValid = false
     response.isSuccess = false
 
+    const { current_sensor_id } = req.body
+
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
         if (payload.role === ADMIN) {
             response.isValid = true
 
-            let currentSensorDB = await CurrentSensor.findOne({ where: { current_sensor_id: req.body.current_sensor_id } })
+            let currentSensorDB = await CurrentSensor.findOne({ where: { current_sensor_id: current_sensor_id } })
 
             if (currentSensorDB !== null) {
                 await currentSensorDB.destroy()
                     .then(() => {
                         response.isSuccess = true
-                        response.message = `You deleted a current sensor has current_sensor_id: ${req.body.current_sensor_id}.`
+                        response.message = `You deleted a current sensor has current_sensor_id: ${current_sensor_id}.`
                     })
                     .catch(err => {
                         response.message = `Error: ${err.message}`
                     })
             } else {
-                response.message = `Do not find current sensor has current_sensor_id: ${req.body.current_sensor_id}`
+                response.message = `Do not find current sensor has current_sensor_id: ${current_sensor_id}`
             }
         } else {
             response.message = 'This account does not have this permission'

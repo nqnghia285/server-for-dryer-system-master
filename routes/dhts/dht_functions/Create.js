@@ -14,15 +14,9 @@ const createDHT = async (req, res) => {
     if (payload !== undefined) {
         if (payload.role === ADMIN) {
             response.isValid = true
-            let dht = {
-                temperature_range: req.body.temperature_range,
-                temperature_accuracy: req.body.temperature_accuracy,
-                humidity_range: req.body.humidity_range,
-                humidity_accuracy: req.body.humidity_accuracy,
-                name: req.body.name,
-                description: req.body.description,
-                machine_id: req.body.machine_id
-            }
+            const dht = {
+                temperature_range, temperature_accuracy, humidity_range, humidity_accuracy, name, description, machine_id
+            } = req.body
 
             await DHT.create(dht)
                 .then(() => {

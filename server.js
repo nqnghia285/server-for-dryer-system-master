@@ -15,6 +15,7 @@ const { json, urlencoded } = require('body-parser')
 const cookieParser = require('cookie-parser')
 const ip = require('ip')
 const { findIndexOfMachineInList } = require('./common_functions/SystemFunction')
+const { createData } = require('./routes/datas/DataFunction')
 ///////////////////////////////////////////////////////////////
 // Params Global
 const machineList = []
@@ -43,10 +44,17 @@ io.on('connection', socket => {
 
         console.log(message);
 
+        let index = findIndexOfMachineInList(message.code, machineList)
+        let machine = machineList[index]
+        createData(machine, message)
+
         console.log(await updateStatusDeviceOfMachineInList(message, machineList));
-        console.log(machineList);
+        // console.log(machineList);
         machineList.forEach(obj => {
-            console.log(obj.statusDevice.sensor);
+            console.log(obj.code);
+            console.log(obj.status);
+            console.log(obj.statusDevices);
+            console.log(obj.statusSensors);
         })
 
         // Send machineList to all Clients
@@ -64,6 +72,7 @@ io.on('connection', socket => {
     // Listener 'mcu-send-ack-control-device'
     socket.on('mcu-send-ack-control-device', message => {
         console.log(message);
+        client.emit('server-send-ack-control-devices', message)
     })
 
     // Listener 'mcu-send-ack-set-cycle-time'
@@ -92,42 +101,53 @@ io.on('connection', socket => {
         client.emit('server-send-update-machine-list', { machineList: machineList })
     })
 
+    // Listener 'mcu-send-ack-finish-session'
+    socket.on('mcu-send-ack-finish-session', message => {
+        let { code, isSuccess } = message
+
+        if (isSuccess !== undefined && code !== undefined && isSuccess) {
+            resetMachine(code, machineList)
+
+            client.emit('server-send-notice-finish-session', `{"code":"${code}"}`)
+        }
+    })
+
     // Listener 'disconnect'
     socket.on('disconnect', message => {
         console.log(message)
         socket.disconnect()
     })
 
-    let flag = true;
+    // let flag = true;
 
-    setInterval(() => {
-        if (flag) {
-            socket.emit('server-send-control-device', '{ "e-fan": true, "b-fan": false, "heater": true }')
-        } else {
-            socket.emit('server-send-control-device', '{ "e-fan": false, "b-fan": true, "heater": false }')
-        }
-        flag = !flag;
-    }, 5000)
+    // setInterval(() => {
+    //     if (flag) {
+    //         socket.emit('server-send-control-device', '{ "code":"CODE001","eFan": true, "bFan": false, "heater": true }')
+    //     } else {
+    //         socket.emit('server-send-control-device', '{ "code":"CODE001","eFan": false, "bFan": true, "heater": false }')
+    //     }
+    //     flag = !flag;
+    // }, 5000)
 
-    setTimeout(() => {
-        socket.emit('server-send-control-machine', '{"status":"off"}')
-    }, 15000)
+    // setTimeout(() => {
+    //     socket.emit('server-send-control-machine', '{"code":"CODE001","status":"off"}')
+    // }, 15000)
 
-    setTimeout(() => {
-        socket.emit('server-send-control-machine', '{"status":"running"}')
-    }, 17000)
+    // setTimeout(() => {
+    //     socket.emit('server-send-control-machine', '{"code":"CODE001","status":"running"}')
+    // }, 17000)
 
-    setTimeout(() => {
-        socket.emit('server-send-set-cycle-time', '{"cycle-time":3000}')
-    }, 19000)
+    // setTimeout(() => {
+    //     socket.emit('server-send-set-cycle-time', '{"code":"CODE001","cycleTime":3000}')
+    // }, 19000)
 
-    setTimeout(() => {
-        socket.emit('server-send-script', '{"temperature":29.5}')
-    }, 20000)
+    // setTimeout(() => {
+    //     socket.emit('server-send-script', '{"code":"CODE001","temperature":30.0}')
+    // }, 20000)
 
-    setTimeout(() => {
-        socket.emit('server-send-control-manual-or-auto', '{"is-auto":true}')
-    }, 21000)
+    // setTimeout(() => {
+    //     socket.emit('server-send-control-manual-or-auto', '{"code":"CODE001","isAuto":true}')
+    // }, 21000)
 })
 
 client.on('connection', socket => {
@@ -175,18 +195,19 @@ const updateMachineList = async (ms, machineList) => {
             code: result.code,
             status: ms.status,
             session_id: null,
-            statusDevice: {
+            finishTime: 0,
+            statusDevices: {
                 eFan: false,
                 bFan: false,
-                heater: false,
-                sensor: {
-                    dht: {
-                        dht1: false,
-                        dht2: false,
-                        dht3: false
-                    },
-                    currentSensor: false
-                }
+                heater: false
+            },
+            statusSensors: {
+                dhts: {
+                    dht1: false,
+                    dht2: false,
+                    dht3: false
+                },
+                currentSensor: false
             }
         }
 
@@ -206,18 +227,17 @@ const updateStatusDeviceOfMachineInList = async (ms, machineList) => {
     const obj = machineList[index]
 
     if (obj) {
-        const statusDevice = obj.statusDevice
-        statusDevice.eFan = ms['eFan']
-        statusDevice.bFan = ms['bFan']
-        statusDevice.heater = ms.heater
+        const { statusDevices, statusSensors } = obj
+        statusDevices.eFan = ms['eFan']
+        statusDevices.bFan = ms['bFan']
+        statusDevices.heater = ms.heater
 
-        const sensor = statusDevice.sensor
-        sensor.currentSensor = ms.current !== 0 ? true : false
+        statusSensors.currentSensor = ms.current !== 0 ? true : false
 
-        const dht = sensor.dht
-        dht.dht1 = ms.dht1 !== '-1' ? true : false
-        dht.dht2 = ms.dht2 !== '-1' ? true : false
-        dht.dht3 = ms.dht3 !== '-1' ? true : false
+        const { dhts } = statusSensors
+        dhts.dht1 = ms.dht1 !== '-1' ? true : false
+        dhts.dht2 = ms.dht2 !== '-1' ? true : false
+        dhts.dht3 = ms.dht3 !== '-1' ? true : false
 
         return true
     } else {
@@ -233,6 +253,42 @@ const MachineListFunction = {
 
 module.exports = MachineListFunction
 /////////////////////////////////////////////////////////////
+const resetMachine = (code, machineList) => {
+    const index = findIndexOfMachineInList(code, machineList)
+    if (index !== -1) {
+        const machine = machineList[index]
+        machine.status = 'on'
+        machine.session_id = null
+        machine.finishTime = 0
+
+        const { statusDevices, statusSensors } = machine
+        statusDevices.eFan = false
+        statusDevices.bFan = false
+        statusDevices.heater = false
+        statusSensors.currentSensor = false
+        statusSensors.dhts.dht1 = false
+        statusSensors.dhts.dht2 = false
+        statusSensors.dhts.dht3 = false
+        return true
+    } else {
+        return false
+    }
+}
+
+// Interval check session
+setInterval(() => {
+    let now = new Date()
+    machineList.forEach((machine, i) => {
+        if (machine.status === 'running') {
+            let finishTime = machine.finishTime
+            if (finishTime <= now.getTime()) {
+                io.emit('server-send-finish-session', `{"code":"${machine.code}"}`)
+            }
+        }
+    })
+}, 5000);
+
+/////////////////////////////////////////////////////////////
 // Require routes
 const UserRoute = require('./routes/users/UserRoute')
 const ScriptRoute = require('./routes/scripts/ScriptRoute')
@@ -240,6 +296,7 @@ const MachineRoute = require('./routes/machines/MachineRoute')
 const DHTRoute = require('./routes/dhts/DHTRoute')
 const CurrentSensorRoute = require('./routes/current_sensors/CurrentSensorRoute')
 const SessionRoute = require('./routes/sessions/SessionRoute')
+const UserActionRoute = require('./routes/user_actions/UserActionRoute')
 
 // Setup
 app.use(json())
@@ -282,6 +339,9 @@ app.use('/api/current-sensor', CurrentSensorRoute)
 
 // Session path
 app.use('/api/session', SessionRoute)
+
+// User action path
+app.use('/api/user-action', UserActionRoute)
 
 // Server is listening clients
 server.listen(PORT, HOST_NAME, () => {

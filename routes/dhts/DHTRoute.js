@@ -9,7 +9,7 @@ DHTRoute.post('/create/', (req, res) => {
 })
 
 // Delete dht
-DHTRoute.delete('/delete/', (req, res) => {
+DHTRoute.post('/delete/', (req, res) => {
     deleteDHT(req, res)
 })
 
@@ -19,7 +19,7 @@ DHTRoute.get('/get-all-of-dhts', (req, res) => {
 })
 
 // Update dht
-DHTRoute.put('/update/', (req, res) => {
+DHTRoute.post('/update/', (req, res) => {
     updateDHT(req, res)
 })
 

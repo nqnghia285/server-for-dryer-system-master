@@ -9,7 +9,7 @@ ScriptRoute.post('/create/', (req, res) => {
 })
 
 // Delete
-ScriptRoute.delete('/delete/', (req, res) => {
+ScriptRoute.post('/delete/', (req, res) => {
     deleteScript(req, res)
 })
 
@@ -19,7 +19,7 @@ ScriptRoute.get('/get-all-of-scripts/', (req, res) => {
 })
 
 // Update script
-ScriptRoute.put('/update/', (req, res) => {
+ScriptRoute.post('/update/', (req, res) => {
     updateScript(req, res)
 })
 

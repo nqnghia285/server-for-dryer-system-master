@@ -9,12 +9,12 @@ CurrentSensorRoute.post('/create/', (req, res) => {
 })
 
 // Delete current sensor
-CurrentSensorRoute.delete('/delete/', (req, res) => {
+CurrentSensorRoute.post('/delete/', (req, res) => {
     deleteCurrentSensor(req, res)
 })
 
 // Update current sensor
-CurrentSensorRoute.put('/update/', (req, res) => {
+CurrentSensorRoute.post('/update/', (req, res) => {
     updateCurrentSensor(req, res)
 })
 

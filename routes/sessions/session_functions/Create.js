@@ -1,4 +1,4 @@
-const { Session, Machine, Script } = require("../../../database/Models")
+const { Session, Script } = require("../../../database/Models")
 const { authenticateUserFromReq } = require("../../../authentication/Auth")
 const { findIndexOfMachineInList } = require("../../../common_functions/SystemFunction")
 
@@ -12,47 +12,45 @@ const createSession = async (req, res) => {
     response.isValid = false
     response.isSuccess = false
 
+    const { code, script_id } = req.body
+
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
         response.isValid = true
-        let session = {
+        const session = {
             user_id: payload.user_id,
-            script_id: req.body.script_id
+            script_id: script_id
         }
 
         console.log(req.body);
 
-        const index = findIndexOfMachineInList(req.body.code, machineList)
-        const status = machineList[index].status
-        const machine_id = machineList[index].machine_id
+        const machine = machineList[findIndexOfMachineInList(code, machineList)]
+        const status = machine.status
+        const machine_id = machine.id
 
         session.machine_id = machine_id
+        console.log(status);
+        console.log(session);
+        console.log(machine);
 
         if (status === 'on') {
-            // const machineDB = await Machine.findOne({ where: { code: req.body.code } })
-
-            // console.log(machineDB)
-
-            // if (machineDB) {
-            //     session.machine_id = machineDB.machine_id
-            // }
 
             await Session.create(session)
                 .then(async (result) => {
 
                     response.message = 'Create session success'
-                    const machine = machineList[findIndexOfMachineInList(req.body.code, machineList)]
                     console.log('New Session:', result);
                     machine.session_id = result.session_id
                     machine.status = 'running'
+                    machine.finishTime = result.finish_time.getTime()
 
                     client.emit('server-send-update-machine-list', { machineList: machineList })
 
                     const script = await Script.findOne({ where: { script_id: result.script_id } })
-                    if (script) {
+                    if (script !== null) {
                         response.isSuccess = true
-                        io.emit('server-send-script', `{"code":"${machineDB.code}","temperature":${script.temperature}}`)
+                        io.emit('server-send-script', `{"code":"${code}","temperature":${script.temperature}}`)
                     } else {
                         response.message = `Find not script: ${result.script_id} in database`
                     }
@@ -61,7 +59,7 @@ const createSession = async (req, res) => {
                     response.message = `Error: ${err.message}`
                 })
         } else {
-            response.message = `The status of machine ${req.body.code} is "on" or "running".`
+            response.message = `The status of machine ${code} is "off" or "running".`
         }
     } else {
         response.message = 'The user token is invalid'
