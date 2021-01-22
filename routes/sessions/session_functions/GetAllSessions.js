@@ -2,6 +2,7 @@ const { authenticateUserFromReq } = require('../../../authentication/Auth')
 const { Session } = require('../../../database/Models')
 
 const ADMIN = 'admin'
+const EMPLOYEE = 'employee'
 
 const getAllSessions = async (req, res) => {
     const response = {}
@@ -23,8 +24,17 @@ const getAllSessions = async (req, res) => {
                 .catch(err => {
                     response.message = `Error: ${err.message}`
                 })
+        } else if (payload.role === EMPLOYEE) {
+            await Session.findAll({ where: { user_id: payload.user_id } })
+                .then(sessions => {
+                    response.isSuccess = true
+                    response.sessions = sessions
+                    response.message = 'Get all of sessions success.'
+                })
+                .catch(err => {
+                    response.message = `Error: ${err.message}`
+                })
         } else {
-            response.isSuccess = false
             response.message = 'This account does not have this permission'
         }
     } else {

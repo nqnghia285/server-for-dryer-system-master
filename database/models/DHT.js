@@ -16,7 +16,7 @@ DHT.init(
 
         humidity_accuracy: { type: DataTypes.STRING(20), defaultValue: null },
 
-        name: { type: DataTypes.STRING, allowNull: false },
+        name: { type: DataTypes.STRING, allowNull: false, defaultValue: 'DHT11' },
 
         description: { type: DataTypes.STRING, defaultValue: null },
 

@@ -39,6 +39,7 @@ const login = async (req, res) => {
             response.user_id = userDB.user_id
             response.email = userDB.email
             response.role = userDB.role
+            response.full_name = userDB.getFullName()
             response.isSuccess = true
 
             // Insert token into cookie

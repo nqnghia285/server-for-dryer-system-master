@@ -44,3 +44,39 @@ exports.dataParser = (ms) => {
 
     return data
 }
+
+exports.fullDataParser = (ms) => {
+    const data = {}
+
+    data.code = ms.code
+    data.current = ms.current
+    data.temperature = ms.temperature
+    data.humidity = ms.humidity
+    data.eFan = ms.eFan
+    data.bFan = ms.bFan
+    data.heater = ms.heater
+
+    let dht1 = ms.dht1
+    let dht2 = ms.dht2
+    let dht3 = ms.dht3
+
+    if (dht1 !== undefined && dht1 !== '-1') {
+        data.dht1 = jsonParser(dht1)
+    } else {
+        data.dht1 = -1
+    }
+
+    if (dht2 !== undefined && dht2 !== '-1') {
+        data.dht2 = jsonParser(dht2)
+    } else {
+        data.dht2 = -1
+    }
+
+    if (dht3 !== undefined && dht3 !== '-1') {
+        data.dht3 = jsonParser(dht3)
+    } else {
+        data.dht3 = -1
+    }
+
+    return data
+}

@@ -1,8 +1,11 @@
 const { authenticateUserFromReq } = require("../../authentication/Auth")
+const { findIndexOfMachineInList } = require("../../common_functions/SystemFunction")
+const { updateStatusDeviceOfMachineInList } = require("../../server")
 
 const controlDevices = async (req, res) => {
     // Global variables of app
-    const io = req.app.locals.io
+    const { io, machineList } = req.app.locals
+
     // Authenticate user
     const response = {}
     response.isValid = false
@@ -22,8 +25,15 @@ const controlDevices = async (req, res) => {
             message.bFan !== undefined &&
             message.heater !== undefined) {
 
-            response.isSuccess = true
-            io.emit('server-send-control-device', JSON.stringify(message))
+            const index = findIndexOfMachineInList(code, machineList)
+            if (index !== -1 && machineList[index].status === 'running') {
+                response.isSuccess = true
+
+                updateStatusDeviceOfMachineInList(message, machineList)
+                io.emit('server-send-control-device', JSON.stringify(message))
+            } else {
+                response.message = 'The machine is not running.'
+            }
         } else {
             response.message = 'Parameters are invalid.'
         }

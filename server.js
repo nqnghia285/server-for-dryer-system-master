@@ -42,23 +42,26 @@ io.on('connection', socket => {
     // Listener 'mcu-send-data'
     socket.on('mcu-send-data', async message => {
 
-        console.log(message);
+        console.log('mcu-send-data', message);
 
         let index = findIndexOfMachineInList(message.code, machineList)
         let machine = machineList[index]
         createData(machine, message)
 
-        console.log(await updateStatusDeviceOfMachineInList(message, machineList));
-        // console.log(machineList);
-        machineList.forEach(obj => {
-            console.log(obj.code);
-            console.log(obj.status);
-            console.log(obj.statusDevices);
-            console.log(obj.statusSensors);
-        })
+        await updateStatusDeviceOfMachineInList(message, machineList)
+
+        // machineList.forEach(obj => {
+        //     console.log(obj.code);
+        //     console.log(obj.status);
+        //     console.log(obj.statusDevices);
+        //     console.log(obj.statusSensors);
+        // })
 
         // Send machineList to all Clients
         client.emit('server-send-update-machine-list', { machineList: machineList })
+
+        // Send data
+        client.emit('server-send-data', { data: fullDataParser(message) })
 
         // console.log(JSON.parse(message))
         // socket.emit('server-send-control', '{"message":"Hello [NodeMCU 12E]."}')
@@ -66,36 +69,39 @@ io.on('connection', socket => {
 
     // Listener 'mcu-send-ack-control-machine'
     socket.on('mcu-send-ack-control-machine', message => {
-        console.log(message);
+        console.log('mcu-send-ack-control-machine', message);
+        client.emit('server-send-update-machine-list', { machineList: machineList })
     })
 
     // Listener 'mcu-send-ack-control-device'
     socket.on('mcu-send-ack-control-device', message => {
-        console.log(message);
-        client.emit('server-send-ack-control-devices', message)
+        console.log('mcu-send-ack-control-device', message);
+        // client.emit('server-send-ack-control-devices', message)
+        client.emit('server-send-update-machine-list', { machineList: machineList })
     })
 
     // Listener 'mcu-send-ack-set-cycle-time'
     socket.on('mcu-send-ack-set-cycle-time', message => {
-        console.log(message);
+        console.log('mcu-send-ack-set-cycle-time', message);
+        client.emit('server-send-ack-set-cycle-time', message)
     })
 
     // Listener 'mcu-send-ack-script'
     socket.on('mcu-send-ack-script', message => {
-        console.log(message);
+        console.log('mcu-send-ack-script', message);
     })
 
     // Listener 'mcu-send-ack-control-manual-or-auto'
     socket.on('mcu-send-ack-control-manual-or-auto', message => {
-        console.log(message);
+        console.log('mcu-send-ack-control-manual-or-auto', message);
     })
 
     // Listener 'mcu-send-ready'
     socket.on('mcu-send-ready', async message => {
-        console.log(message);
+        console.log('mcu-send-ready', message);
 
         await updateMachineList(message, machineList)
-        console.log(machineList);
+        console.log('Update machineList - mcu-send-ready:', machineList);
 
         // Send machineList to all Clients
         client.emit('server-send-update-machine-list', { machineList: machineList })
@@ -103,6 +109,7 @@ io.on('connection', socket => {
 
     // Listener 'mcu-send-ack-finish-session'
     socket.on('mcu-send-ack-finish-session', message => {
+        console.log('mcu-send-ack-finish-session', message);
         let { code, isSuccess } = message
 
         if (isSuccess !== undefined && code !== undefined && isSuccess) {
@@ -114,40 +121,9 @@ io.on('connection', socket => {
 
     // Listener 'disconnect'
     socket.on('disconnect', message => {
-        console.log(message)
+        console.log('disconnect', message)
         socket.disconnect()
     })
-
-    // let flag = true;
-
-    // setInterval(() => {
-    //     if (flag) {
-    //         socket.emit('server-send-control-device', '{ "code":"CODE001","eFan": true, "bFan": false, "heater": true }')
-    //     } else {
-    //         socket.emit('server-send-control-device', '{ "code":"CODE001","eFan": false, "bFan": true, "heater": false }')
-    //     }
-    //     flag = !flag;
-    // }, 5000)
-
-    // setTimeout(() => {
-    //     socket.emit('server-send-control-machine', '{"code":"CODE001","status":"off"}')
-    // }, 15000)
-
-    // setTimeout(() => {
-    //     socket.emit('server-send-control-machine', '{"code":"CODE001","status":"running"}')
-    // }, 17000)
-
-    // setTimeout(() => {
-    //     socket.emit('server-send-set-cycle-time', '{"code":"CODE001","cycleTime":3000}')
-    // }, 19000)
-
-    // setTimeout(() => {
-    //     socket.emit('server-send-script', '{"code":"CODE001","temperature":30.0}')
-    // }, 20000)
-
-    // setTimeout(() => {
-    //     socket.emit('server-send-control-manual-or-auto', '{"code":"CODE001","isAuto":true}')
-    // }, 21000)
 })
 
 client.on('connection', socket => {
@@ -155,22 +131,19 @@ client.on('connection', socket => {
     socket.emit('server-send-ack-connection', 'Connected to server.')
 
     socket.on('client-send-message', message => {
-        console.log(message);
+        console.log('client-send-message', message);
     })
-
-    setInterval(() => {
-        socket.emit('server-send-message', 'Hi Client.')
-    }, 3000)
 })
 
+// Truy cap xuong DB va cap nhat machineList
 setTimeout(() => {
     Machine.findAll()
         .then(machines => {
-            console.log('Machine All: ', machines);
-            if (machines) {
+            if (machines.length > 0) {
                 machines.forEach(machine => {
                     updateMachineList({ code: machine.code, status: 'off' }, machineList)
                 })
+                console.log('Update machineList - Start: ', machineList);
             }
         })
 }, 5000)
@@ -275,7 +248,7 @@ const resetMachine = (code, machineList) => {
     }
 }
 
-// Interval check session
+// Interval check finish session
 setInterval(() => {
     let now = new Date()
     machineList.forEach((machine, i) => {
@@ -297,6 +270,7 @@ const DHTRoute = require('./routes/dhts/DHTRoute')
 const CurrentSensorRoute = require('./routes/current_sensors/CurrentSensorRoute')
 const SessionRoute = require('./routes/sessions/SessionRoute')
 const UserActionRoute = require('./routes/user_actions/UserActionRoute')
+const { fullDataParser } = require('./routes/datas/data_functions/DataParser')
 
 // Setup
 app.use(json())
