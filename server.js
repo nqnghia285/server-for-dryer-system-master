@@ -115,7 +115,7 @@ io.on('connection', socket => {
         if (isSuccess !== undefined && code !== undefined && isSuccess) {
             console.log('rest machine: ', resetMachine(code, machineList));
 
-            client.emit('server-send-notice-finish-session', `{"code":"${code}"}`)
+            client.emit('server-send-notice-finish-session', { code: code })
         }
     })
 

@@ -3,6 +3,7 @@ const { Session } = require('../../../database/Models')
 
 const ADMIN = 'admin'
 const EMPLOYEE = 'employee'
+const MANAGER = 'manager'
 
 const getAllSessions = async (req, res) => {
     const response = {}
@@ -12,7 +13,7 @@ const getAllSessions = async (req, res) => {
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
-        if (payload.role === ADMIN) {
+        if (payload.role === ADMIN || payload.role === MANAGER) {
             response.isValid = true
 
             await Session.findAll()

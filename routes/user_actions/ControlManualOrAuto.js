@@ -1,5 +1,8 @@
 const { authenticateUserFromReq } = require("../../authentication/Auth")
 
+const ADMIN = 'admin'
+const EMPLOYEE = 'employee'
+
 const controlManualOrAuto = async (req, res) => {
     // Global variables of app
     const io = req.app.locals.io
@@ -15,15 +18,19 @@ const controlManualOrAuto = async (req, res) => {
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
-        response.isValid = true
+        if (payload.role === ADMIN || payload.role === EMPLOYEE) {
+            response.isValid = true
 
-        if (message.code !== undefined &&
-            message.isAuto !== undefined) {
+            if (message.code !== undefined &&
+                message.isAuto !== undefined) {
 
-            response.isSuccess = true
-            io.emit('server-send-control-manual-or-auto', JSON.stringify(message))
+                response.isSuccess = true
+                io.emit('server-send-control-manual-or-auto', JSON.stringify(message))
+            } else {
+                response.message = 'Parameters are invalid.'
+            }
         } else {
-            response.message = 'Parameters are invalid.'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

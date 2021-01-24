@@ -1,6 +1,9 @@
 const { authenticateUserFromReq } = require('../../../authentication/Auth')
 const { Script } = require('../../../database/Models')
 
+const ADMIN = 'admin'
+const EMPLOYEE = 'employee'
+
 const updateScript = async (req, res) => {
     const response = {}
     response.isValid = false
@@ -9,26 +12,30 @@ const updateScript = async (req, res) => {
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
-        response.isValid = true
+        if (payload.role === ADMIN || payload.role === EMPLOYEE) {
+            response.isValid = true
 
-        const script = {
-            script_id, name, description, type_of_fruit, mass, time, temperature, humidity
-        } = req.body
-        script.user_id = payload.user_id
+            const script = {
+                script_id, name, description, type_of_fruit, mass, time, temperature, humidity
+            } = req.body
+            script.user_id = payload.user_id
 
-        let scriptDB = await Script.findOne({ where: { script_id: script.script_id } })
+            let scriptDB = await Script.findOne({ where: { script_id: script.script_id } })
 
-        if (scriptDB !== null) {
-            await scriptDB.update(script)
-                .then(() => {
-                    response.isSuccess = true
-                    response.message = 'Update script success'
-                })
-                .catch(err => {
-                    response.message = `Error: ${err.message}`
-                })
+            if (scriptDB !== null) {
+                await scriptDB.update(script)
+                    .then(() => {
+                        response.isSuccess = true
+                        response.message = 'Update script success'
+                    })
+                    .catch(err => {
+                        response.message = `Error: ${err.message}`
+                    })
+            } else {
+                response.message = `The script has script_id: ${script.script_id} do not exist in database.`
+            }
         } else {
-            response.message = `The script has script_id: ${script.script_id} do not exist in database.`
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

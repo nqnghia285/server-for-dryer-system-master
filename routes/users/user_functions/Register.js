@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
                 response.message = 'The email existed or inserting user into database is failed'
             }
         } else {
-            response.message = 'This account does not access the source'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'

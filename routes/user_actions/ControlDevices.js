@@ -2,6 +2,9 @@ const { authenticateUserFromReq } = require("../../authentication/Auth")
 const { findIndexOfMachineInList } = require("../../common_functions/SystemFunction")
 const { updateStatusDeviceOfMachineInList } = require("../../server")
 
+const ADMIN = 'admin'
+const EMPLOYEE = 'employee'
+
 const controlDevices = async (req, res) => {
     // Global variables of app
     const { io, machineList } = req.app.locals
@@ -18,24 +21,28 @@ const controlDevices = async (req, res) => {
     const payload = authenticateUserFromReq(req)
 
     if (payload !== undefined) {
-        response.isValid = true
+        if (payload.role === ADMIN || payload.role === EMPLOYEE) {
+            response.isValid = true
 
-        if (message.code !== undefined &&
-            message.eFan !== undefined &&
-            message.bFan !== undefined &&
-            message.heater !== undefined) {
+            if (message.code !== undefined &&
+                message.eFan !== undefined &&
+                message.bFan !== undefined &&
+                message.heater !== undefined) {
 
-            const index = findIndexOfMachineInList(code, machineList)
-            if (index !== -1 && machineList[index].status === 'running') {
-                response.isSuccess = true
+                const index = findIndexOfMachineInList(code, machineList)
+                if (index !== -1 && machineList[index].status === 'running') {
+                    response.isSuccess = true
 
-                updateStatusDeviceOfMachineInList(message, machineList)
-                io.emit('server-send-control-device', JSON.stringify(message))
+                    updateStatusDeviceOfMachineInList(message, machineList)
+                    io.emit('server-send-control-device', JSON.stringify(message))
+                } else {
+                    response.message = 'The machine is not running.'
+                }
             } else {
-                response.message = 'The machine is not running.'
+                response.message = 'Parameters are invalid.'
             }
         } else {
-            response.message = 'Parameters are invalid.'
+            response.message = 'This account does not have this permission'
         }
     } else {
         response.message = 'The user token is invalid'
