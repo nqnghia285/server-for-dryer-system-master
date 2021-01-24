@@ -6,8 +6,7 @@ const EXPIRATION = 1 * 60 * 60 * 1000 // 1h
 
 const login = async (req, res) => {
     // Global variables of app
-    const userList = req.app.locals.userList
-    const client = req.app.locals.client
+    const { userList, client, machineList } = req.app.locals
     // Local variables
     const response = {}
     response.isSuccess = false
@@ -20,7 +19,7 @@ const login = async (req, res) => {
 
     console.log(hashPWD('123456'));
 
-    console.log('Cookie req: ', req.cookies);
+    // console.log('Cookie req: ', req.cookies);
 
     // Wait querying database until it is finished
     /*
@@ -64,10 +63,8 @@ const login = async (req, res) => {
                 })
             }
 
-            console.log('Cookie of user login: ', res);
-            console.log('User list: ', userList);
-
             client.emit('server-send-update-user-list', { userList: userList })
+            client.emit('server-send-update-machine-list', { machineList: machineList })
         } else {
             response.message = 'The username and password are matched.'
         }
